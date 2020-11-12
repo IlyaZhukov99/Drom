@@ -1,9 +1,14 @@
 package DromPackage;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -12,16 +17,22 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 public class DromSearch {
     private static FileWriter writer;
     private static final String DROM_RU = "https://www.drom.ru/";
+    private static WebDriver driver;
 
     @BeforeAll
     static void before1() throws IOException {
-
+        ChromeOptions option = new ChromeOptions();
+        option.addArguments("--start-maximized");
+        option.setCapability("takesScreenshot", false);
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        driver = new ChromeDriver(option);
+        WebDriverRunner.setWebDriver(driver);
         writer = new FileWriter("log\\auto.txt");
         Selenide.open(DROM_RU);
     }
 
     @Test
-    void drom() throws IOException  {
+    void drom() throws IOException {
         DromSteps dromSteps = new DromSteps();
         dromSteps.goToTomsk();
         dromSteps.choiceModel();
@@ -43,6 +54,7 @@ public class DromSearch {
 
     @AfterAll
     static void after1() {
+        driver.close();
         closeWebDriver();
     }
 }
