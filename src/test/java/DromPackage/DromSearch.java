@@ -29,11 +29,13 @@ public class DromSearch {
         WebDriverRunner.setWebDriver(driver);
         writer = new FileWriter("log\\auto.txt");
         Selenide.open(DROM_RU);
+        System.out.println(DROM_RU);
     }
 
     @Test
     void drom() throws IOException {
         DromSteps dromSteps = new DromSteps();
+        System.out.println("Погнали НАХУЙ");
         dromSteps.goToTomsk();
         dromSteps.choiceModel();
         dromSteps.choicePrice();
@@ -54,6 +56,7 @@ public class DromSearch {
 
     @AfterAll
     static void after1() {
+        System.out.println("Все закрыли!!!!");
         driver.close();
         closeWebDriver();
     }
