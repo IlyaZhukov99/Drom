@@ -11,13 +11,13 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class DromSearch {
     private static FileWriter writer;
-    private static final String URL = "https://www.drom.ru/";
+    private static final String DROM_RU = "https://www.drom.ru/";
 
     @BeforeAll
     static void before1() throws IOException {
 
         writer = new FileWriter("log\\auto.txt");
-        Selenide.open(URL);
+        Selenide.open(DROM_RU);
     }
 
     @Test
