@@ -3,8 +3,12 @@ package DromPackage;
 
 import com.codeborne.selenide.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -12,97 +16,97 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class DromSteps {
-    private final Logger log = LoggerFactory.getLogger(DromSearch.class);
+    private final Logger log = LoggerFactory.getLogger(DromSteps.class);
     private final String priceFrom = "100000";
     private final String priceTo = "300000";
     private final String model = "Toyota";
-    private final String doc = "Г‚ ГЇГ®Г°ГїГ¤ГЄГҐ";
+    private final String doc = "В порядке";
     private final String year = "2010";
-    private final String transmission = "ГЂГўГІГ®Г¬Г ГІ";
-    private final String fuel = "ГЃГҐГ­Г§ГЁГ­";
+    private final String transmission = "Автомат";
+    private final String fuel = "Бензин";
     private final String volume = "1.5";
-    private final String repair = "ГЌГҐ ГІГ°ГҐГЎГіГҐГІГ±Гї Г°ГҐГ¬Г®Г­ГІ";
+    private final String repair = "Не требуется ремонт";
 
     public void goToTomsk() {
         $(By.xpath("//a[@href=\"https://auto.drom.ru/cities/\"]")).click();
 //      $(By.xpath("//a[@href=\"https://auto.drom.ru/region70/\"]")).click();
         $(By.xpath("//a[@href=\"https://www.drom.ru/my_region/?go=https%3A%2F%2Ftomsk.drom.ru%2Fauto%2F\"]")).click();
-        System.out.println("ГЏГҐГ°ГҐГёГ«ГЁ Гў Г’Г®Г¬Г±ГЄ");
+        log.info("Перешли в Томск");
     }
 
     public void choiceModel() {
         $(By.xpath("//button[@tabindex=\"-1\"]")).click();
         $(By.linkText(model)).click();
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ Г¬Г®Г¤ГҐГ«Гј " + model);
+        log.info("Выбрали модель " + model);
     }
 
     public void choicePrice() {
         $(By.xpath("//input[@data-ftid=\"sales__filter_price-from\"]")).sendKeys(priceFrom);
         $(By.xpath("//input[@data-ftid=\"sales__filter_price-to\"]")).sendKeys(priceTo);
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ Г¶ГҐГ­Гі Гў ГЇГ°ГҐГ¤ГҐГ«Г Гµ Г®ГІ " + priceFrom + " Г¤Г® " + priceTo);
+        log.info("Выбрали цену от " + priceFrom + " до " + priceTo);
     }
 
     public void choiceYear() {
         Selenide.$(By.xpath("//div[@data-ftid=\"sales__filter_year-to\"]")).$(By.tagName("select")).
                 selectOption(year);
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ " + year + " ГЈГ®Г¤");
+        log.info("Выбрали " + year + " год");
     }
 
     public void choiceTransmission() {
         Selenide.$(By.xpath("//div[@data-ftid=\"sales__filter_transmission\"]")).$(By.tagName("select")).
                 selectOption(transmission);
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ ГЄГ®Г°Г®ГЎГЄГі " + transmission);
+        log.info("Выбрали коробку " + transmission);
     }
 
     public void choiceFuel() {
         Selenide.$(By.xpath("//div[@data-ftid=\"sales__filter_fuel-type\"]")).$(By.tagName("select")).
                 selectOption(fuel);
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ ГІГЁГЇ ГІГ®ГЇГ«ГЁГўГ " + fuel);
+        log.info("Выбрали тип топлива: " + fuel);
     }
 
     public void choiceDocuments() {
         Selenide.$(By.xpath("//div[@data-ftid=\"sales__filter_docs\"]")).$(By.tagName("select")).
                 selectOption(doc);
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ Г±Г®Г±ГІГ®ГїГ­ГЁГҐ Г¤Г®ГЄГіГ¬ГҐГ­ГІГ®Гў");
+        log.info("Выбрали состояние документов: ");
     }
 
     public void choiceColor() {
         $(By.className("css-1omqfef")).click();
         $(By.className("css-v5btcq")).click();
         $(By.className("css-17kbomo")).click();
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ Г¶ГўГҐГІГ ");
+        log.info("Выбрали цвет");
     }
 
     public void choicePhoto() {
         $(By.xpath("//label[@for=\"photo\"]")).click();
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ ГЇГ®Г¬ГҐГІГЄГі Г‘ Г”Г®ГІГ®");
+        log.info("Выбрали обязательность фото");
     }
 
     public void advansedSearch() {
         $(By.className("ezmft1z0")).click();
-        System.out.println("ГЋГІГЄГ°Г»Г«ГЁ Г°Г Г±ГёГЁГ°ГҐГ­Г­Г»Г© ГЇГ®ГЁГ±ГЄ");
+        log.info("Перешли в расширенный поиск");
     }
 
     public void choiceNotSold() {
-        $(Selectors.byText("ГЌГҐГЇГ°Г®Г¤Г Г­Г­Г»ГҐ")).click();
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ ГЇГ®Г¬ГҐГІГЄГі ГЌГҐГЇГ°Г®Г¤Г Г­Г­Г»ГҐ");
+        $(Selectors.byText("Непроданные")).click();
+        log.info("Выбрали обязательность непроданного авто");
     }
 
     public void choiceTrade() {
-        $(Selectors.byText("Г‚Г®Г§Г¬Г®Г¦ГҐГ­ Г®ГЎГ¬ГҐГ­")).click();
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГј Г®ГЎГ¬ГҐГ­Г ");
+        $(Selectors.byText("Возможен обмен")).click();
+        log.info("Выбрали возможность обмена");
     }
 
     public void choiceRepair() {
         Selenide.$(By.xpath("//div[@data-ftid=\"sales__filter_damaged\"]")).$(By.tagName("select")).
                 selectOption(repair);
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ Г±Г®Г±ГІГ®ГїГ­ГЁГҐ: " + repair);//
+        log.info("Состояние: " + repair);//
     }
 
     public void choiceVolume() {
         Selenide.$(By.xpath("//div[@data-ftid=\"sales__filter_volume-from\"]")).$(By.tagName("select")).
                 selectOption(volume);
-        System.out.println("Г‚Г»ГЎГ°Г Г«ГЁ Г®ГЎГєГҐГ¬ Г¤ГўГЁГЈГ ГІГҐГ«Гї: " + volume);
+        log.info("Выбрали объем: " + volume);
     }
 
     public void buttonShowClick() {
@@ -112,17 +116,17 @@ public class DromSteps {
     public void screenAndLink(FileWriter writer) throws IOException {
         ElementsCollection selenideElements = $$(By.xpath("//a[@data-ftid=\"bulls-list_bull\"]"));
         for (int i = 0; i < selenideElements.size(); i++) {
-            if (selenideElements.get(i).$(By.className("css-1dkqnhk")).text().contains("Г’Г®Г¬Г±ГЄ")) {
+            if (selenideElements.get(i).$(By.className("css-1dkqnhk")).text().contains("Томск")) {
                 selenideElements.get(i).click();
-                System.out.println("ГЏГҐГ°ГҐГёГҐГ« Г­Г  Г±ГІГ°Г Г­ГЁГ¶Гі Г¬Г ГёГЁГ­Г»");
+                log.info("Перешли на страницу Авто");
                 WebDriverRunner.url();
                 writeToFile(writer, WebDriverRunner.url());
+                log.info("Записали ссылку в файл ");
                 Selenide.back();
-                System.out.println("Г‚ГҐГ°Г­ГіГ«Г±Гї Г­Г  Г±ГІГ°Г Г­ГЁГ¶Гі ГЇГ®ГЁГ±ГЄГ ");
+                log.info("Вернулись на страницу с поиском");
             }
-            System.out.println("ГЏГҐГ°ГҐГµГ®Г¤ ГЄ Г±Г«ГҐГ¤ГіГѕГ№ГҐГ¬Гі ГЅГ«ГҐГ¬ГҐГ­ГІГі Г¶ГЁГЄГ«Г ");
         }
-        System.out.println("pizdec nahuy blyad`");
+        log.info("pizdec nahuy blyad`");
     }
 
     public static void writeToFile(FileWriter writer, String text) throws IOException {

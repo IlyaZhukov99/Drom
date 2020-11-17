@@ -8,16 +8,20 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.Selenide.open;
 
 public class DromSearch {
     private static FileWriter writer;
     private static final String DROM_RU = "https://www.drom.ru/";
     private static WebDriver driver;
+    private final Logger log = LoggerFactory.getLogger(DromSearch.class);
 
     @BeforeAll
     static void before1() throws IOException {
@@ -35,7 +39,7 @@ public class DromSearch {
     @Test
     void drom() throws IOException {
         DromSteps dromSteps = new DromSteps();
-        System.out.println("Погнали НАХУЙ");
+        log.info("Погнали НАХУЙ");
         dromSteps.goToTomsk();
         dromSteps.choiceModel();
         dromSteps.choicePrice();
@@ -52,6 +56,19 @@ public class DromSearch {
         dromSteps.choiceTrade();
         dromSteps.buttonShowClick();
         dromSteps.screenAndLink(writer);
+    }
+
+    @Test
+    void sendMails() {
+        open("https://mail.ru/");
+        log.info("Пошли отправлять письмо");
+        SendMail sendMail = new SendMail();
+        sendMail.authorization();
+        sendMail.goToSendMail();
+        sendMail.setInformationAboutMail();
+        sendMail.setItemsToMail();
+        sendMail.setTxtToMail();
+        sendMail.sendMessage();
     }
 
     @AfterAll
